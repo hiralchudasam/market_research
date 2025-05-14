@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>AI MARKET RESEARCH ANALYST</title>
+    <link rel="stylesheet" href="style.css" />
+    <!-- Chart.js CDN for charts -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Chart.js Data Labels plugin -->
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0"></script>
+    <style>
+        #chartsContainer {
+            max-width: 700px;
+            margin: auto;
+        }
+        canvas {
+            display: block;
+            margin: 0 auto 20px auto;
+            width: 500px !important;
+            height: 500px !important;
+        }
+        .download-btn {
+            display: block;
+            margin: 0 auto 25px auto;
+            padding: 6px 12px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+            width: 150px;
+            text-align: center;
+        }
+        .download-btn:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Data Visualization</h1>
+    </header>
+
+    <nav>
+        <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="data_preview.html">Data Preview</a></li>
+            <li><a href="data_summary.html">Data Summary</a></li>
+            <li><a href="summary_report_generation.html">Summary Report Generation</a></li>
+            <li><a href="report_download.html">Report Download</a></li>
+        </ul>
+    </nav>
+
+    <main>
+        <h2>Data Visualization</h2>
+        <div id="chartsContainer">
+            <canvas id="barChart"></canvas>
+            <button class="download-btn" data-chart="barChart">Download Bar Chart</button>
+
+            <canvas id="lineChart"></canvas>
+            <button class="download-btn" data-chart="lineChart">Download Line Chart</button>
+
+            <canvas id="pieChart"></canvas>
+            <button class="download-btn" data-chart="pieChart">Download Pie Chart</button>
+
+            <canvas id="radarChart"></canvas>
+            <button class="download-btn" data-chart="radarChart">Download Radar Chart</button>
+
+            <canvas id="doughnutChart"></canvas>
+            <button class="download-btn" data-chart="doughnutChart">Download Doughnut Chart</button>
+
+            <canvas id="scatterChart"></canvas>
+            <button class="download-btn" data-chart="scatterChart">Download Scatter Chart</button>
+
+            <canvas id="polarAreaChart"></canvas>
+            <button class="download-btn" data-chart="polarAreaChart">Download Polar Area Chart</button>
+        </div>
+    </main>
+    <script src="app.js"></script>
+</body>
+</html>

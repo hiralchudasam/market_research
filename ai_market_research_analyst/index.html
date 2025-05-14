@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>AI MARKET RESEARCH ANALYST</title>
+    <link rel="stylesheet" href="style.css" />
+    <!-- PapaParse CDN for CSV parsing -->
+    <script src="https://cdn.jsdelivr.net/npm/papaparse@5.3.2/papaparse.min.js"></script>
+    <!-- Chart.js CDN for charts -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Chart.js Data Labels plugin -->
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0"></script>
+</head>
+<body>
+    <header>
+        <h1>AI MARKET RESEARCH ANALYST</h1>
+        <p>Your intelligent assistant for market research analysis, providing data insights and comprehensive reports.</p>
+    </header>
+
+    <div class="upload-container">
+        <button id="uploadBtn">Upload CSV File</button>
+        <input type="file" id="csvFileInput" accept=".csv" style="display:none" />
+    </div>
+
+    <nav>
+        <a href="#" data-page="data_preview.html">Data Preview</a>
+        <a href="#" data-page="data_summary.html">Data Summary</a>
+        <a href="#" data-page="data_visualization.html">Data Visualization</a>
+        <a href="#" data-page="summary_report_generation.html">Summary Report Generation</a>
+        <a href="#" data-page="report_download.html">Report Download</a>
+    </nav>
+
+    <main id="mainContent" style="max-width: 1100px; margin: 30px auto; padding: 20px; background-color: #fff; border-radius: 10px; box-shadow: 0 0 10px rgba(0,0,0,0.1);">
+        <!-- Dynamic content will be loaded here -->
+        <h2>Welcome to AI Market Research Analyst</h2>
+        <p>Select a page from the navigation above to get started.</p>
+    </main>
+
+    <script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Report Download - AI MARKET RESEARCH ANALYST</title>
+    <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+    <header>
+        <h1>Report Download</h1>
+    </header>
+
+    <nav>
+        <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="data_preview.html">Data Preview</a></li>
+            <li><a href="data_summary.html">Data Summary</a></li>
+            <li><a href="data_visualization.html">Data Visualization</a></li>
+            <li><a href="summary_report_generation.html">Summary Report Generation</a></li>
+        </ul>
+    </nav>
+
+    <main>
+        <h2>Report Download</h2>
+        <button id="downloadBtn" style="padding: 10px 20px; font-size: 1.2em; cursor: pointer;">Download Summary Report</button>
+        <p id="message" style="margin-top: 20px; color: red;"></p>
+    </main>
+    <script src="app.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const downloadBtn = document.getElementById('downloadBtn');
+            const message = document.getElementById('message');
+
+            downloadBtn.addEventListener('click', () => {
+                const csvData = localStorage.getItem('csvData');
+                if (!csvData) {
+                    message.textContent = 'No CSV data uploaded yet. Please upload a CSV file on the Home page.';
+                    return;
+                }
+                const data = JSON.parse(csvData);
+                if (data.length === 0) {
+                    message.textContent = 'Uploaded CSV file is empty.';
+                    return;
+                }
+
+                // Helper function to check if a value is numeric
+                function isNumeric(n) {
+                    return !isNaN(parseFloat(n)) && isFinite(n);
+                }
+
+                // Extract numeric columns and their values
+                const columns = Object.keys(data[0]);
+                const numericColumns = columns.filter(col => data.some(row => isNumeric(row[col])));
+                if (numericColumns.length === 0) {
+                    message.textContent = 'No numeric columns found in the uploaded CSV data.';
+                    return;
+                }
+
+                // Calculate basic stats for summary
+                const stats = {};
+                numericColumns.forEach(col => {
+                    const values = data.map(row => row[col]).filter(isNumeric).map(Number);
+                    const count = values.length;
+                    const mean = values.reduce((a, b) => a + b, 0) / count;
+                    const min = Math.min(...values);
+                    const max = Math.max(...values);
+                    stats[col] = { count, mean, min, max };
+                });
+
+                // Generate report text
+                let report = 'Summary Report for Uploaded Data:\n\n';
+                report += `The dataset contains ${data.length} rows and ${columns.length} columns.\n\n`;
+                report += 'Numeric Columns Summary:\n';
+                for (const [col, stat] of Object.entries(stats)) {
+                    report += `- ${col}: Count = ${stat.count}, Mean = ${stat.mean.toFixed(2)}, Min = ${stat.min}, Max = ${stat.max}\n`;
+                }
+                report += '\nVisualizations include bar, line, pie, radar, and doughnut charts representing the distribution and trends of the first numeric column.\n';
+
+                // Create a blob and trigger download
+                const blob = new Blob([report], { type: 'text/plain' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = 'summary_report.txt';
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+                message.textContent = 'Report downloaded successfully.';
+            });
+        });
+    </script>
+</body>
+</html>

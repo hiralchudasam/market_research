@@ -1,0 +1,157 @@
+/* Reset & Body Styling */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f2f2f2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* Header Styling */
+header {
+    background-color: #0073ce;
+    color: white;
+    text-align: center;
+    padding: 20px 10px;
+    width: 100%;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+header h1 {
+    font-size: 2.5em;
+    font-weight: bold;
+}
+
+header p {
+    margin-top: 10px;
+    font-size: 1.2em;
+}
+
+/* Upload Button Container */
+.upload-container {
+    width: 100%;
+    background-color: #f2f2f2;
+    padding: 10px 0;
+    position: sticky;
+    top: 80px; /* height of header */
+    z-index: 999;
+    display: flex;
+    justify-content: center;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+#uploadBtn {
+    background-color: #0073ce;
+    color: white;
+    border: none;
+    padding: 15px 30px;
+    font-size: 1em;
+    border-radius: 6px;
+    cursor: pointer;
+    width: fit-content;
+}
+
+#uploadBtn:hover {
+    background-color: #005fa3;
+}
+
+/* Navigation Bar */
+nav {
+    background-color: #222;
+    display: flex;
+    justify-content: center;
+    padding: 0;
+    width: 100%;
+    position: sticky;
+    top: 130px; /* header + upload container height */
+    z-index: 998;
+    margin-bottom: 30px;
+}
+
+nav a {
+    color: white;
+    padding: 14px 20px;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 1em;
+}
+
+nav a:hover {
+    background-color: #444;
+}
+
+/* Main Container */
+.main-content {
+    width: 100%;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    margin: 20px 0;
+    overflow-x: auto;
+}
+
+/* Feature Boxes */
+.features {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    margin: 30px 0;
+    gap: 20px;
+}
+
+.box {
+    width: 48%;
+    padding: 20px;
+    border-radius: 8px;
+    text-align: left;
+}
+
+.featured {
+    background-color: #eaf4ff;
+}
+
+.featured h3 {
+    color: #0073ce;
+    margin-bottom: 10px;
+}
+
+.who-can-use {
+    background-color: #fff3cd;
+}
+
+.who-can-use h3 {
+    color: #f90;
+    margin-bottom: 10px;
+}
+
+/* Benefits Section */
+.benefits {
+    background-color: #e6ffe6;
+    padding: 20px;
+    border-radius: 8px;
+    margin-top: 20px;
+    text-align: center;
+}
+
+.benefits h3 {
+    color: #00aa00;
+    margin-bottom: 15px;
+}
+
+.benefits p {
+    margin: 5px 0;
+}
+
+#chartsContainer canvas {
+  width: 600px !important;
+  height: 600px !important;
+}

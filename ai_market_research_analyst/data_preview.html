@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>AI MARKET RESEARCH ANALYST</title>
+    <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+    <header style="text-align: center; color: #cce0ff; max-width: 700px; margin-left: auto; margin-right: auto;">
+        <h1 style="margin-bottom: 5px;">AI MARKET RESEARCH ANALYST</h1>
+        <p style="margin: 0; font-size: 1.1rem; font-weight: 400;">Empowering Market Insights with AI</p>
+    </header>
+
+    <section id="fileUpload" style="margin-top: 30px; text-align: center;">
+        <button id="uploadBtn">Upload CSV File</button>
+        <input type="file" id="csvFileInput" accept=".csv" style="display:none" />
+    </section>
+
+    <nav style="margin-top: 30px; text-align: center;">
+        <ul style="list-style: none; padding: 0; display: inline-flex; gap: 20px;">
+            <li><a href="data_preview.html">Data Preview</a></li>
+            <li><a href="data_summary.html">Data Summary</a></li>
+            <li><a href="data_visualization.html">Data Visualization</a></li>
+            <li><a href="summary_report_generation.html">Summary Report Generation</a></li>
+            <li><a href="report_download.html">Report Download</a></li>
+        </ul>
+    </nav>
+
+    <main>
+        <section id="previewTableContainer" style="margin-top: 20px;"></section>
+    </main>
+    <script src="https://cdn.jsdelivr.net/npm/papaparse@5.3.2/papaparse.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const uploadBtn = document.getElementById('uploadBtn');
+            const csvFileInput = document.getElementById('csvFileInput');
+            const container = document.getElementById('previewTableContainer');
+
+            uploadBtn.addEventListener('click', () => {
+                csvFileInput.click();
+            });
+
+            csvFileInput.addEventListener('change', (event) => {
+                const file = event.target.files[0];
+                if (file) {
+                    Papa.parse(file, {
+                        header: true,
+                        skipEmptyLines: true,
+                        complete: function(results) {
+                            localStorage.setItem('csvData', JSON.stringify(results.data));
+                            alert('CSV file uploaded and parsed successfully!');
+                            renderTable(results.data);
+                        },
+                        error: function(err) {
+                            alert('Error parsing CSV file: ' + err.message);
+                        }
+                    });
+                }
+            });
+
+            function renderTable(data) {
+                container.innerHTML = '';
+                if (!data || data.length === 0) {
+                    container.innerHTML = '<p>Uploaded CSV file is empty.</p>';
+                    return;
+                }
+                const table = document.createElement('table');
+                table.style.width = '100%';
+                table.style.borderCollapse = 'collapse';
+
+                const thead = document.createElement('thead');
+                const headerRow = document.createElement('tr');
+                Object.keys(data[0]).forEach(key => {
+                    const th = document.createElement('th');
+                    th.textContent = key;
+                    th.style.border = '1px solid #ddd';
+                    th.style.padding = '8px';
+                    th.style.backgroundColor = '#f2f2f2';
+                    headerRow.appendChild(th);
+                });
+                thead.appendChild(headerRow);
+                table.appendChild(thead);
+
+                const tbody = document.createElement('tbody');
+                data.slice(0, 10).forEach(row => {
+                    const tr = document.createElement('tr');
+                    Object.values(row).forEach(value => {
+                        const td = document.createElement('td');
+                        td.textContent = value;
+                        td.style.border = '1px solid #ddd';
+                        td.style.padding = '8px';
+                        tr.appendChild(td);
+                    });
+                    tbody.appendChild(tr);
+                });
+                table.appendChild(tbody);
+                container.appendChild(table);
+            }
+
+            // Render table if data already exists in localStorage
+            const existingData = localStorage.getItem('csvData');
+            if (existingData) {
+                renderTable(JSON.parse(existingData));
+            }
+        });
+    </script>
+</body>
+</html>

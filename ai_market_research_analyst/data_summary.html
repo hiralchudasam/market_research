@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title> AI MARKET RESEARCH ANALYST</title>
+    <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+    <header>
+        <h1>Data Summary</h1>
+    </header>
+
+    <nav>
+        <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="data_preview.html">Data Preview</a></li>
+            <li><a href="data_visualization.html">Data Visualization</a></li>
+            <li><a href="summary_report_generation.html">Summary Report Generation</a></li>
+            <li><a href="report_download.html">Report Download</a></li>
+        </ul>
+    </nav>
+
+    <main>
+        <h2>Data Summary Statistics</h2>
+        <div id="summaryContainer"></div>
+    </main>
+    <script src="app.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const container = document.getElementById('summaryContainer');
+            const csvData = localStorage.getItem('csvData');
+            if (!csvData) {
+                container.innerHTML = '<p>No CSV data uploaded yet. Please upload a CSV file on the Home page.</p>';
+                return;
+            }
+            const data = JSON.parse(csvData);
+            if (data.length === 0) {
+                container.innerHTML = '<p>Uploaded CSV file is empty.</p>';
+                return;
+            }
+
+            // Helper function to check if a value is numeric
+            function isNumeric(n) {
+                return !isNaN(parseFloat(n)) && isFinite(n);
+            }
+
+            // Calculate summary statistics for numeric columns
+            const columns = Object.keys(data[0]);
+            const stats = {};
+
+            columns.forEach(col => {
+                const values = data.map(row => row[col]).filter(isNumeric).map(Number);
+                if (values.length > 0) {
+                    const count = values.length;
+                    const mean = values.reduce((a, b) => a + b, 0) / count;
+                    const min = Math.min(...values);
+                    const max = Math.max(...values);
+                    stats[col] = { count, mean, min, max };
+                }
+            });
+
+            if (Object.keys(stats).length === 0) {
+                container.innerHTML = '<p>No numeric columns found in the uploaded CSV data.</p>';
+                return;
+            }
+
+            // Create table to display stats
+            const table = document.createElement('table');
+            table.style.width = '100%';
+            table.style.borderCollapse = 'collapse';
+
+            const thead = document.createElement('thead');
+            const headerRow = document.createElement('tr');
+            ['Column', 'Count', 'Mean', 'Min', 'Max'].forEach(text => {
+                const th = document.createElement('th');
+                th.textContent = text;
+                th.style.border = '1px solid #ddd';
+                th.style.padding = '8px';
+                th.style.backgroundColor = '#f2f2f2';
+                headerRow.appendChild(th);
+            });
+            thead.appendChild(headerRow);
+            table.appendChild(thead);
+
+            const tbody = document.createElement('tbody');
+            Object.entries(stats).forEach(([col, stat]) => {
+                const tr = document.createElement('tr');
+                [col, stat.count, stat.mean.toFixed(2), stat.min, stat.max].forEach(val => {
+                    const td = document.createElement('td');
+                    td.textContent = val;
+                    td.style.border = '1px solid #ddd';
+                    td.style.padding = '8px';
+                    tr.appendChild(td);
+                });
+                tbody.appendChild(tr);
+            });
+            table.appendChild(tbody);
+            container.appendChild(table);
+        });
+    </script>
+</body>
+</html>
